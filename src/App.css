@@ -1,0 +1,49 @@
+:root {
+  --border-color: #e1e1e1;
+  --header-bg: #f3f3f3;
+  --cell-selected: #e8f0fe;
+  --cell-highlight: #e8f0fe80;
+  --toolbar-height: 36px;
+  --formula-bar-height: 30px;
+  --cell-width: 100px;
+  --cell-height: 25px;
+  --font-family: 'Open Sans', sans-serif;
+  --text-color: #000000;
+  --primary-color: #1a73e8;
+  --toolbar-bg: #f8f9fa;
+  --formula-bg: #f8f9fa;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--text-color);
+  overflow: hidden;
+}
+
+.spreadsheet-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Hide default React/Vite styling */
+.logo, .card, .read-the-docs {
+  display: none;
+}
