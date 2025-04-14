@@ -12,7 +12,7 @@ const FormulaBar = () => {
   const [formula, setFormula] = useState('');
   const inputRef = useRef(null);
   
-  // Update formula when active cell changes
+
   useEffect(() => {
     if (activeCell && data[activeCell]) {
       setFormula(data[activeCell].formula || data[activeCell].value || '');
@@ -21,12 +21,12 @@ const FormulaBar = () => {
     }
   }, [activeCell, data]);
   
-  // Handle formula change
+
   const handleFormulaChange = (e) => {
     setFormula(e.target.value);
   };
   
-  // Handle key press
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && activeCell) {
       const isFormula = formula.startsWith('=');

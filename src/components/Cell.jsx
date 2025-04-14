@@ -20,7 +20,7 @@ const Cell = ({ cellId, onMouseDown, onMouseOver, isSelected, isActive }) => {
   const cellRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Set up input value when cell becomes active
+
   useEffect(() => {
     if (isActive && editMode) {
       setInputValue(cell.formula || cell.value || '');
@@ -30,23 +30,23 @@ const Cell = ({ cellId, onMouseDown, onMouseOver, isSelected, isActive }) => {
     }
   }, [isActive, editMode, cell.value, cell.formula]);
 
-  // Handle double click to enter edit mode
+
   const handleDoubleClick = () => {
     setEditMode(true);
   };
 
-  // Handle key down events
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      // Save and exit edit mode
+
       handleBlur();
     } else if (e.key === 'Escape') {
-      // Cancel edit and exit edit mode
+
       setEditMode(false);
     }
   };
 
-  // Handle blur event to save changes
+
   const handleBlur = () => {
     if (editMode && isActive) {
       const isFormula = inputValue.startsWith('=');
@@ -55,12 +55,12 @@ const Cell = ({ cellId, onMouseDown, onMouseOver, isSelected, isActive }) => {
     }
   };
 
-  // Handle input change
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  // Apply cell formatting styles
+
   const cellStyle = {
     fontWeight: cell.formatting?.bold ? 'bold' : 'normal',
     fontStyle: cell.formatting?.italic ? 'italic' : 'normal',
@@ -68,7 +68,7 @@ const Cell = ({ cellId, onMouseDown, onMouseOver, isSelected, isActive }) => {
     color: cell.formatting?.color || '#000000',
   };
 
-  // Determine cell class names
+
   const cellClassNames = [
     'spreadsheet-cell',
     isSelected ? 'selected' : '',

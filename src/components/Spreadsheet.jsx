@@ -18,7 +18,7 @@ const Spreadsheet = () => {
   const headerColRef = useRef(null);
   const contentRef = useRef(null);
 
-  // Scroll synchronization with optimized performance
+
   useEffect(() => {
     const content = contentRef.current;
     const headerRow = headerRowRef.current;
@@ -37,7 +37,7 @@ const Spreadsheet = () => {
     return () => content.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Function to check if a cell is selected
+
   const isCellSelected = useCallback((cellId) => {
     if (!selectedRange.start || !selectedRange.end) return false;
     
@@ -60,7 +60,7 @@ const Spreadsheet = () => {
     );
   }, [selectedRange]);
 
-  // Optimized event handlers using useCallback
+
   const handleMouseDown = useCallback((cellId) => {
     setActiveCell(cellId);
     setSelectedRange({ start: cellId, end: cellId });
@@ -82,7 +82,7 @@ const Spreadsheet = () => {
     return () => document.removeEventListener('mouseup', handleMouseUp);
   }, [handleMouseUp]);
 
-  // Memoized column headers
+
   const renderColumnHeaders = useMemo(() => {
     return (
       <>
@@ -96,7 +96,7 @@ const Spreadsheet = () => {
     );
   }, [dimensions.cols]);
 
-  // Memoized row headers
+
   const renderRowHeaders = useMemo(() => {
     return Array.from({ length: dimensions.rows }, (_, row) => (
       <div key={`row-${row}`} className="row-header">
@@ -105,7 +105,7 @@ const Spreadsheet = () => {
     ));
   }, [dimensions.rows]);
 
-  // Memoized cells grid
+
   const renderCells = useMemo(() => {
     return Array.from({ length: dimensions.rows }, (_, row) => (
       <div key={`row-${row}`} className="spreadsheet-row">

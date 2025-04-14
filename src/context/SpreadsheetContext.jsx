@@ -42,7 +42,7 @@ export const SpreadsheetProvider = ({ children }) => {
     setData(prevData => {
       const newData = { ...prevData };
       
-      // If it's a formula, store it and evaluate
+
       if (isFormula) {
         const formulaValue = value.startsWith('=') ? value : `=${value}`;
         const result = evaluateFormula(formulaValue.substring(1), newData);
@@ -62,7 +62,7 @@ export const SpreadsheetProvider = ({ children }) => {
         };
       }
 
-      // Update dependent cells
+
       updateDependentCells(newData, cellId);
       
       return newData;
@@ -70,7 +70,7 @@ export const SpreadsheetProvider = ({ children }) => {
   }, []);
 
   const updateDependentCells = (data, changedCellId) => {
-    // Find cells that depend on the changed cell and update them
+
     Object.keys(data).forEach(cellId => {
       const cell = data[cellId];
       if (cell.formula && cell.formula.includes(changedCellId)) {
@@ -80,7 +80,7 @@ export const SpreadsheetProvider = ({ children }) => {
           value: result,
           formatted: result,
         };
-        // Recursively update cells that depend on this cell
+
         updateDependentCells(data, cellId);
       }
     });
@@ -103,7 +103,7 @@ export const SpreadsheetProvider = ({ children }) => {
     setDimensions(prev => ({ ...prev, rows: prev.rows + 1 }));
     setData(prevData => {
       const newData = { ...prevData };
-      // Shift existing rows down
+
       for (let row = dimensions.rows - 1; row > afterIndex; row--) {
         for (let col = 0; col < dimensions.cols; col++) {
           const oldCellId = `${String.fromCharCode(65 + col)}${row}`;
@@ -112,7 +112,7 @@ export const SpreadsheetProvider = ({ children }) => {
         }
       }
       
-      // Create the new row
+
       for (let col = 0; col < dimensions.cols; col++) {
         const cellId = `${String.fromCharCode(65 + col)}${afterIndex + 1}`;
         newData[cellId] = {
@@ -139,7 +139,7 @@ export const SpreadsheetProvider = ({ children }) => {
     setData(prevData => {
       const newData = { ...prevData };
       
-      // Shift rows up
+
       for (let row = rowIndex; row < dimensions.rows - 1; row++) {
         for (let col = 0; col < dimensions.cols; col++) {
           const oldCellId = `${String.fromCharCode(65 + col)}${row + 2}`;
@@ -148,7 +148,7 @@ export const SpreadsheetProvider = ({ children }) => {
         }
       }
       
-      // Remove the last row
+
       for (let col = 0; col < dimensions.cols; col++) {
         const cellId = `${String.fromCharCode(65 + col)}${dimensions.rows}`;
         delete newData[cellId];
@@ -163,7 +163,7 @@ export const SpreadsheetProvider = ({ children }) => {
     setData(prevData => {
       const newData = { ...prevData };
       
-      // Shift columns to the right
+
       for (let col = dimensions.cols - 1; col > afterIndex; col--) {
         for (let row = 0; row < dimensions.rows; row++) {
           const oldCellId = `${String.fromCharCode(65 + col)}${row + 1}`;
@@ -172,7 +172,7 @@ export const SpreadsheetProvider = ({ children }) => {
         }
       }
       
-      // Create the new column
+
       for (let row = 0; row < dimensions.rows; row++) {
         const cellId = `${String.fromCharCode(65 + afterIndex + 1)}${row + 1}`;
         newData[cellId] = {
@@ -199,7 +199,7 @@ export const SpreadsheetProvider = ({ children }) => {
     setData(prevData => {
       const newData = { ...prevData };
       
-      // Shift columns to the left
+
       for (let col = colIndex; col < dimensions.cols - 1; col++) {
         for (let row = 0; row < dimensions.rows; row++) {
           const oldCellId = `${String.fromCharCode(65 + col + 1)}${row + 1}`;
@@ -208,7 +208,7 @@ export const SpreadsheetProvider = ({ children }) => {
         }
       }
       
-      // Remove the last column
+
       for (let row = 0; row < dimensions.rows; row++) {
         const cellId = `${String.fromCharCode(65 + dimensions.cols - 1)}${row + 1}`;
         delete newData[cellId];
@@ -227,7 +227,7 @@ export const SpreadsheetProvider = ({ children }) => {
     const startRow = parseInt(start.substring(1));
     const endRow = parseInt(end.substring(1));
     
-    // Extract data from the range
+
     const rowData = [];
     for (let row = startRow; row <= endRow; row++) {
       const rowValues = [];
@@ -238,7 +238,7 @@ export const SpreadsheetProvider = ({ children }) => {
       rowData.push({ row, values: rowValues.join('|') });
     }
     
-    // Find unique rows
+
     const uniqueRows = [];
     const uniqueRowValues = new Set();
     
@@ -249,11 +249,11 @@ export const SpreadsheetProvider = ({ children }) => {
       }
     });
     
-    // Create new data without duplicates
+
     setData(prevData => {
       const newData = { ...prevData };
       
-      // Clear the range first
+
       for (let row = startRow; row <= endRow; row++) {
         for (let col = startCol; col <= endCol; col++) {
           const cellId = `${String.fromCharCode(65 + col)}${row}`;
@@ -266,7 +266,7 @@ export const SpreadsheetProvider = ({ children }) => {
         }
       }
       
-      // Fill in unique rows
+
       let newRowIndex = startRow;
       uniqueRows.forEach(originalRow => {
         for (let col = startCol; col <= endCol; col++) {
@@ -291,7 +291,7 @@ export const SpreadsheetProvider = ({ children }) => {
     setData(prevData => {
       const newData = { ...prevData };
       
-      // Determine range to search
+
       const searchRange = selectedRange.start && selectedRange.end 
         ? selectedRange 
         : { start: 'A1', end: `${String.fromCharCode(65 + dimensions.cols - 1)}${dimensions.rows}` };

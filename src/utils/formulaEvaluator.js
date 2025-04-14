@@ -2,10 +2,8 @@ export const evaluateFormula = (formula, data) => {
   if (!formula) return "";
 
   try {
-    // Parse formula to identify function and arguments
     const formulaUpper = formula.toUpperCase();
 
-    // Mathematical functions
     if (formulaUpper.startsWith("SUM(")) {
       return evaluateSum(formula, data);
     } else if (formulaUpper.startsWith("AVERAGE(")) {
@@ -16,22 +14,14 @@ export const evaluateFormula = (formula, data) => {
       return evaluateMin(formula, data);
     } else if (formulaUpper.startsWith("COUNT(")) {
       return evaluateCount(formula, data);
-    }
-
-    // Data quality functions
-    else if (formulaUpper.startsWith("TRIM(")) {
+    } else if (formulaUpper.startsWith("TRIM(")) {
       return evaluateTrim(formula, data);
     } else if (formulaUpper.startsWith("UPPER(")) {
       return evaluateUpper(formula, data);
     } else if (formulaUpper.startsWith("LOWER(")) {
       return evaluateLower(formula, data);
-    }
-
-    // Cell reference or direct calculation
-    else {
-      // Replace cell references with their values
+    } else {
       const withValues = replaceReferences(formula, data);
-      // Use Function constructor to safely evaluate the expression
       return new Function(`return ${withValues}`)();
     }
   } catch (error) {
@@ -40,7 +30,6 @@ export const evaluateFormula = (formula, data) => {
   }
 };
 
-// Helper to extract cell range from a function argument
 const extractRange = (arg) => {
   const rangeMatch = arg.match(/([A-Z]+[0-9]+):([A-Z]+[0-9]+)/);
   if (rangeMatch) {
@@ -50,7 +39,6 @@ const extractRange = (arg) => {
   return null;
 };
 
-// Helper to get values from a range of cells
 const getCellRangeValues = (range, data) => {
   const values = [];
   const startCol = range.start.charCodeAt(0) - 65;
@@ -63,7 +51,6 @@ const getCellRangeValues = (range, data) => {
       const cellId = `${String.fromCharCode(65 + col)}${row}`;
       const cellValue = data[cellId]?.value;
 
-      // Only include numeric values
       if (
         cellValue !== "" &&
         cellValue !== undefined &&
@@ -77,7 +64,6 @@ const getCellRangeValues = (range, data) => {
   return values;
 };
 
-// Extract arguments from a function formula
 const extractArgs = (formula) => {
   const argsMatch = formula.match(/\((.+)\)/);
   if (!argsMatch) return [];
@@ -86,14 +72,11 @@ const extractArgs = (formula) => {
   return argsStr.split(",").map((arg) => arg.trim());
 };
 
-// Replace cell references with their values
 const replaceReferences = (formula, data) => {
   let result = formula;
 
-  // Regular expression to match cell references (e.g., A1, B2)
   const cellRefRegex = /([A-Z]+[0-9]+)/g;
 
-  // Replace each cell reference with its value
   result = result.replace(cellRefRegex, (match) => {
     const cellValue = data[match]?.value;
     if (cellValue === undefined) return 0;
@@ -105,7 +88,6 @@ const replaceReferences = (formula, data) => {
   return result;
 };
 
-// Mathematical function implementations
 const evaluateSum = (formula, data) => {
   const args = extractArgs(formula);
   let sum = 0;
@@ -116,7 +98,6 @@ const evaluateSum = (formula, data) => {
       const values = getCellRangeValues(range, data);
       sum += values.reduce((acc, val) => acc + val, 0);
     } else {
-      // Single cell reference
       const cellValue = data[arg]?.value;
       if (cellValue !== "" && !isNaN(Number(cellValue))) {
         sum += Number(cellValue);
@@ -139,7 +120,6 @@ const evaluateAverage = (formula, data) => {
       sum += values.reduce((acc, val) => acc + val, 0);
       count += values.length;
     } else {
-      // Single cell reference
       const cellValue = data[arg]?.value;
       if (cellValue !== "" && !isNaN(Number(cellValue))) {
         sum += Number(cellValue);
@@ -160,7 +140,6 @@ const evaluateMax = (formula, data) => {
     if (range) {
       values = [...values, ...getCellRangeValues(range, data)];
     } else {
-      // Single cell reference
       const cellValue = data[arg]?.value;
       if (cellValue !== "" && !isNaN(Number(cellValue))) {
         values.push(Number(cellValue));
@@ -180,7 +159,6 @@ const evaluateMin = (formula, data) => {
     if (range) {
       values = [...values, ...getCellRangeValues(range, data)];
     } else {
-      // Single cell reference
       const cellValue = data[arg]?.value;
       if (cellValue !== "" && !isNaN(Number(cellValue))) {
         values.push(Number(cellValue));
@@ -200,7 +178,6 @@ const evaluateCount = (formula, data) => {
     if (range) {
       count += getCellRangeValues(range, data).length;
     } else {
-      // Single cell reference
       const cellValue = data[arg]?.value;
       if (cellValue !== "" && !isNaN(Number(cellValue))) {
         count++;
@@ -211,7 +188,6 @@ const evaluateCount = (formula, data) => {
   return count;
 };
 
-// Data quality function implementations
 const evaluateTrim = (formula, data) => {
   const args = extractArgs(formula);
   if (args.length === 0) return "";

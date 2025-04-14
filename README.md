@@ -29,9 +29,13 @@ A web application that closely mimics the user interface and core functionalitie
   =MAX(C1:C20)
   ```
 - **MIN**: Returns the minimum value from a range of cells
-  ```
+
   =MIN(D5:D15)
+
   ```
+
+  ```
+
 - **COUNT**: Counts the number of cells containing numerical values
   ```
   =COUNT(E1:E100)

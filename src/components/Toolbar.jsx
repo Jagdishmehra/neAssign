@@ -18,7 +18,7 @@ const Toolbar = () => {
   const [findText, setFindText] = useState('');
   const [replaceText, setReplaceText] = useState('');
   const [showFindReplace, setShowFindReplace] = useState(false);
-  
+
   const cellFormatting = activeCell ? data[activeCell]?.formatting : {
     bold: false,
     italic: false,

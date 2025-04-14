@@ -21,7 +21,6 @@
   color: var(--text-color);
   font-weight: bold;
 }
-
 .formula-input-container {
   flex-grow: 1;
   display: flex;
